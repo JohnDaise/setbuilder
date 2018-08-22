@@ -1,5 +1,5 @@
 class SongsController < ApplicationController
-# before_action :find_song, only: [:update]
+before_action :find_song, only: [:update]
   # def index
   #   # @songs = Song.all
   #   render json: Song.all
@@ -24,13 +24,13 @@ class SongsController < ApplicationController
 
 private
 
-def song_params
-  params.permit(:name, :notes)
-end
+  def song_params
+    params.permit(:name, :notes)
+  end
 
-def find_song
-  @song = Song.find(params[:id])
-end
+  def find_song
+    @song = Song.find(params[:id])
+  end
 
 
 end
