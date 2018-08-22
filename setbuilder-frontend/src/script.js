@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   rightSidePanel();
   fetchSetlist();
-  fetchAllSongs();
-  // renderSetlist();
+
 })
 
 
@@ -38,64 +37,81 @@ function fetchSetlist(){
   fetch(`http://localhost:3000/setlists`)
   .then(r => r.json())
     .then(data => {
-      data.forEach(setlist => {renderSetlistTitle(setlist)
+      data.forEach(setlist => {
+
+        renderSetlistTitle(setlist);
+
         //function renderSetlistSongs to sidebar
       });
     });
 }
 
+
+//make choosing a setlist a dropdown
 function renderSetlistTitle(setlist){
+
   let sidebarDiv = document.getElementById("setlist-div")
   let h1 = document.createElement('h1')
   sidebarDiv.className = "ui celled list"
   h1.innerText = setlist.title
   sidebarDiv.appendChild(h1)
+
+  h1.addEventListener('click', renderSetlistSongs )//find setlist)
   //use this function to render setlist song names to sidebar as well
 };
 
-function renderSetlistSongs(setlist){
-  let sidebarDiv = document.getElementById("setlist-div")
-  let ul = document.getElementById("setlist-order") //make this ul a sidebar
-  let li = document.createElement('li') //give this li the drag and drop capability
+function renderSetlistSongs(e){
+  e.preventDefault();
+  let ul = document.getElementById("setlist-order")
+  ul.innerHTML = ""
+  fetch(`http://localhost:3000/setlists`)
+  .then(r => r.json())
+    .then(data => {
+      data[0].songs.forEach(song =>{
+          let sidebarDiv = document.getElementById("setlist-div")
+          let ul = document.getElementById("setlist-order") //make this ul a sidebar
+          let li = document.createElement('li') //give this li the drag and drop capability
+          li.id = song.id
+          li.className = "column"
+          li.innerHTML = `${song.name}`
+          li.draggable = "true"
+          //create showButton at right so reveal song notes in showPanel
+          li.addEventListener('click', renderNotesHandler)
+          //have 'drag handle' on left side of li
+          sidebarDiv.appendChild(ul)
+          ul.appendChild(li)
 
-  li.id = song.id
-  li.className = "column"
-  li.innerHTML = `${song.name}`
-  li.draggable = "true"
-  //create showButton at right so reveal song notes in showPanel
-  li.addEventListener('click', renderNotesHandler)
-  //have 'drag handle' on left side of li
-  sidebarDiv.appendChild(ul)
-  ul.appendChild(li)
-
-}
-
-
-function fetchAllSongs(){
-  fetch(`http://localhost:3000/songs`)
-    .then(r => r.json())
-      .then(data => {
-        data.forEach(song => {renderSong(song) //should render to showPanel
-        });
+        //function renderSetlistSongs to sidebar
       });
-};
+    });
+  };
 
-function renderSong(song){
-  let sidebarDiv = document.getElementById("setlist-div")
-  let ul = document.getElementById("setlist-order") //make this ul a sidebar
-  let li = document.createElement('li') //give this li the drag and drop capability
 
-  li.id = song.id
-  li.className = "column"
-  li.innerHTML = `${song.name}`
-  li.draggable = "true"
-  //create showButton at right so reveal song notes in showPanel
-  li.addEventListener('click', renderNotesHandler)
-  //have 'drag handle' on left side of li
-  sidebarDiv.appendChild(ul)
-  ul.appendChild(li)
+// function fetchAllSongs(){
+//   fetch(`http://localhost:3000/songs`)
+//     .then(r => r.json())
+//       .then(data => {
+//         data.forEach(song => {console.log(song)//renderSong(song) //should render to showPanel
+//         });
+//       });
+// };
 
-};
+// function renderSong(song){
+//   let sidebarDiv = document.getElementById("setlist-div")
+//   let ul = document.getElementById("setlist-order") //make this ul a sidebar
+//   let li = document.createElement('li') //give this li the drag and drop capability
+//
+//   li.id = song.id
+//   li.className = "column"
+//   li.innerHTML = `${song.name}`
+//   li.draggable = "true"
+//   //create showButton at right so reveal song notes in showPanel
+//   li.addEventListener('click', renderNotesHandler)
+//   //have 'drag handle' on left side of li
+//   sidebarDiv.appendChild(ul)
+//   ul.appendChild(li)
+//
+// };
 
 
 function renderNotesHandler(e){
@@ -183,22 +199,31 @@ function updateSong(e){
 };
 
 
- function renderAllSongs(){
-   console.log('All Songs')
+ function renderAllSongs(e){
+   e.preventDefault();
+   let showPanel = document.getElementById("show-panel")
+   showPanel.innerHTML = ""
    //view all songs in the showPanel with just the title and a button to add song to setlist on the right
    //fetch all songs
    fetch(`http://localhost:3000/songs`)
      .then(r => r.json())
        .then(data => {
-         data.forEach(song => {renderSongs(song)
+         data.forEach(song => {
+           console.log(song)
+           let ul = document.createElement('ul')
+           let li = document.createElement('li')
+           li.innerText = song.name
+           showPanel.appendChild(ul)
+           ul.appendChild(li)
          });
        });
  }
 
- function renderSongs(){
-   console.log("All Songs")
-   //function fetchAllSongs()
- }
+
+ // function renderSongsToShowPanel(song){
+ //
+ //   //function fetchAllSongs()
+ // }
 
 
 
