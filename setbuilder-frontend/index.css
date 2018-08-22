@@ -41,6 +41,12 @@ body {
   -webkit-user-drag: element;
 }
 
+
+
+p {
+	font-size: 40px;
+
+}
 /* #columns {
   list-style-type: none;
 }
