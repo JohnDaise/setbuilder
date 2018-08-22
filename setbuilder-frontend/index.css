@@ -1,0 +1,72 @@
+body {
+	display: grid;
+	grid-template-columns: 3fr 7fr
+}
+
+/* .setlist { */
+    /* height: 100%; /* Full-height: remove this if you want "auto" height */
+    /* width: 160px;
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    padding-top: 100px;
+} */
+
+/* sidebar styling */
+
+ .sidenav {
+    height: 100%;
+    /*width: 33%;*/
+    /* position: fixed; */
+    z-index: 1;
+    /*top: 20px;
+    left: 10px; */
+    background: #eee;
+    /* overflow-x: hidden;*/
+    padding: 8px 0;
+}
+
+/* Styling for Draggable li */
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+/* #columns {
+  list-style-type: none;
+}
+
+.column {
+  width: 162px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  text-align: center;
+  cursor: move;
+}
+.column header {
+  height: 20px;
+  width: 150px;
+  color: black;
+  background-color: #ccc;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 10px;
+  border: 2px solid #666666;
+}
+
+.column.dragElem {
+  opacity: 0.4;
+}
+.column.over {
+  //border: 2px dashed #000;
+  border-top: 2px solid blue;
+}  */
