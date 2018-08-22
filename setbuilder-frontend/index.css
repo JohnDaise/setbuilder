@@ -42,37 +42,13 @@ body {
 }
 
 
+li {
+	font-size: 15px;
+	list-style-type: none;
+}
+
 
 p {
 	font-size: 40px;
 
 }
-/* #columns {
-  list-style-type: none;
-}
-
-.column {
-  width: 162px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  text-align: center;
-  cursor: move;
-}
-.column header {
-  height: 20px;
-  width: 150px;
-  color: black;
-  background-color: #ccc;
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
-  border-radius: 10px;
-  border: 2px solid #666666;
-}
-
-.column.dragElem {
-  opacity: 0.4;
-}
-.column.over {
-  //border: 2px dashed #000;
-  border-top: 2px solid blue;
-}  */

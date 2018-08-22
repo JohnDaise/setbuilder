@@ -18,6 +18,12 @@ function rightSidePanel(){
   createSongButton.innerText = "Add New Song"
   createSetlistBtn.innerText = "Create New Setlist"
 
+  allSongsBtn.className = "ui primary basic button"
+  createSongButton.className = "ui secondary basic button"
+  createSetlistBtn.className = "ui positive basic button"
+
+
+
   rightSideDiv.appendChild(allSongsBtn);
   rightSideDiv.appendChild(createSongButton);
   rightSideDiv.appendChild(createSetlistBtn);
@@ -41,14 +47,28 @@ function fetchSetlist(){
 function renderSetlistTitle(setlist){
   let sidebarDiv = document.getElementById("setlist-div")
   let h1 = document.createElement('h1')
+  sidebarDiv.className = "ui celled list"
   h1.innerText = setlist.title
   sidebarDiv.appendChild(h1)
   //use this function to render setlist song names to sidebar as well
 };
 
-// function renderSetlistSongs(){
-//   //
-// }
+function renderSetlistSongs(setlist){
+  let sidebarDiv = document.getElementById("setlist-div")
+  let ul = document.getElementById("setlist-order") //make this ul a sidebar
+  let li = document.createElement('li') //give this li the drag and drop capability
+
+  li.id = song.id
+  li.className = "column"
+  li.innerHTML = `${song.name}`
+  li.draggable = "true"
+  //create showButton at right so reveal song notes in showPanel
+  li.addEventListener('click', renderNotesHandler)
+  //have 'drag handle' on left side of li
+  sidebarDiv.appendChild(ul)
+  ul.appendChild(li)
+
+}
 
 
 function fetchAllSongs(){
@@ -99,6 +119,8 @@ function renderNotes(id){
           deleteBtn.innerText = "Delete from Set"
           editBtn.id = data.id
           deleteBtn.id = data.id
+          editBtn.className ="ui primary button"
+          deleteBtn.className ="ui button"
 
           showPanel.innerHTML = ""
           showPanel.appendChild(header)
@@ -122,6 +144,7 @@ function editNotes(e){
   let songName = e.currentTarget.parentNode.querySelector("h1").innerText
   let notes = e.currentTarget.parentNode.querySelector("p")
   let editBtn = e.currentTarget
+
 
   if (notes.contentEditable === "false"){
     notes.contentEditable = !!notes.contentEditable
