@@ -36,7 +36,7 @@
       <button type="button" id="createSetlist-btn" class="ui positive basic button" name="button">Create Setlist</button>
 
 
-      <form class="ui form" action="index.html" method="post">
+      <form id="songForm" class="ui form" action="index.html" method="post">
         <div class="field">
           <label>Add New Song</label>
           <select onchange="renderSetlistSongs(this)" id="dropdown-form" class="ui dropdown">
@@ -49,7 +49,7 @@
              <label>Notes</label>
              <textarea></textarea>
            </div>
-           <button type="button" id="createSetlist-btn" class="ui positive basic button" name="button">Add Song</button>
+           <button type="button" id="createSong-btn" class="ui positive basic button" name="button">Add Song</button>
       </form>
 
 

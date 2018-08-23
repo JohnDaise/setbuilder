@@ -9,14 +9,31 @@ document.addEventListener("DOMContentLoaded", function(){
 
 function rightSidePanel(){
   let allSongsBtn = document.getElementById("allSongs-btn")
-  let createSongButton = document.getElementById("addNewSong-btn")
   let createSetlistBtn = document.getElementById("createSetlist-btn")
+  let createSongButton = document.getElementById("addNewSong-btn")
+  let createSongForm = document.getElementById("songForm")
+  createSongForm.style.display = "none"
+
+
   // let rightSideDiv = document.getElementById("right-panel")
   // let addSongForm = document.createElement('div')
 
+  let addSong = false
   allSongsBtn.addEventListener('click', renderAllSongs)
-  createSongButton.addEventListener('click', createSongForm)
   createSetlistBtn.addEventListener('click', createSetlist)
+  createSongButton.addEventListener('click', () => {
+     // hide & seek with the form
+     addSong = !addSong
+     if (addSong) {
+       createSongForm.style.display = 'block'
+     } else {
+       createSongForm.style.display = 'none'
+     }
+   });
+
+
+// YOUR CODE HERE
+
 
 
 };
@@ -269,12 +286,10 @@ function addSongToSet(e){
 
 
 
-function createSongForm(){
- console.log('New Song')
+
  //will open up a new song form in the showPanel
  //form will have placeholder text for the name and will have contentEditable <p> with basic song form filled in
  //will open up dropdown to add to or create setlist
-}
 
 function createSetlist(){
   console.log('Create Setlist')
