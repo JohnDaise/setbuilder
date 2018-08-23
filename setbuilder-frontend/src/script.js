@@ -158,7 +158,7 @@ function renderNotes(id){
           deleteBtn.innerText = "Delete from Set"
           editBtn.id = `edit-${data.id}`
           deleteBtn.id = `delete-${data.id}`
-          editBtn.className ="ui button"
+          editBtn.className ="ui purple button"
           deleteBtn.className ="ui secondary button"
 
           showPanel.innerHTML = ""
@@ -189,23 +189,22 @@ function renderNotes(id){
 
 function editNotes(e){
   e.preventDefault();
-  console.log("edit")
-  // let id = e.currentTarget.id
-  // let songName = e.currentTarget.parentNode.querySelector("h1").innerText
-  // let notes = e.currentTarget.parentNode.querySelector("p")
-  // let editBtn = e.currentTarget
-  //
-  //
-  //
-  // if (notes.contentEditable === "false"){
-  //   notes.contentEditable = !!notes.contentEditable
-  //   editBtn.innerText = "Save Notes"
-  //   editBtn.addEventListener('click', updateSong)
-  //   //fetch patch function to update db
-  // } else {
-  //   notes.contentEditable = !notes.contentEditable
-  //   editBtn.innerText = "Edit Notes"
-  //   };
+  let id = e.currentTarget.id.split("-")[1]
+  let songName = e.currentTarget.parentNode.querySelector("h1").innerText
+  let notes = e.currentTarget.parentNode.querySelector("p")
+  let editBtn = e.currentTarget
+
+
+
+  if (notes.contentEditable === "false"){
+    notes.contentEditable = !!notes.contentEditable
+    editBtn.innerText = "Save Notes"
+    editBtn.addEventListener('click', updateSong)
+    //fetch patch function to update db
+  } else {
+    notes.contentEditable = !notes.contentEditable
+    editBtn.innerText = "Edit Notes"
+    };
 };
 //
 function submitHandler(e){
@@ -246,7 +245,7 @@ function deletefromSetlist(){
 
 function updateSong(e){
   e.preventDefault();
-  let id = e.currentTarget.id
+  let id = e.currentTarget.id.split("-")[1]
   let notes = e.currentTarget.parentElement.querySelector('p').innerText
   fetch(`http://localhost:3000/songs/${id}`, {
     "method": "PATCH",
