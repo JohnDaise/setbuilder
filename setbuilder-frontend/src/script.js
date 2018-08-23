@@ -141,7 +141,7 @@ function renderNotes(id){
           deleteBtn.innerText = "Delete from Set"
           editBtn.id = data.id
           deleteBtn.id = data.id
-          editBtn.className ="ui primary button"
+          editBtn.className ="ui purple button"
           deleteBtn.className ="ui button"
 
           showPanel.innerHTML = ""
@@ -209,27 +209,64 @@ function updateSong(e){
    e.preventDefault();
    let showPanel = document.getElementById("show-panel")
    showPanel.innerHTML = ""
-   //view all songs in the showPanel with just the title and a button to add song to setlist on the right
-   //fetch all songs
    fetch(`http://localhost:3000/songs`)
      .then(r => r.json())
        .then(data => {
-         data.forEach(song => {
-           console.log(song)
+         let sortedData = data.sort(function(a, b) {
+           return a.name.localeCompare(b.name);
+            });
+         sortedData.forEach(song => {
            let ul = document.createElement('ul')
            let li = document.createElement('li')
            li.innerText = song.name
+           li.id = song.id
+           li.addEventListener('click', addSongToSet)
            showPanel.appendChild(ul)
            ul.appendChild(li)
          });
        });
  }
 
+//get this feature to add a song to a setlist to work
+function addSongToSet(e){
+  console.log('Song Added')
+  let id = e.currentTarget.id
+  let dropdown = document.getElementById("dropdown")
+  let setlistId = dropdown.options[dropdown.selectedIndex].id
+  fetch(`http://localhost:3000/songs/${id}`, {
+      "method": "PATCH",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": JSON.stringify({
+        "setlist.id": setlistId
+      })
+    }).then(r =>
+      r.json())
+    .then(json => {
+      console.log(json)
+    });
+    };
 
- // function renderSongsToShowPanel(song){
- //
- //   //function fetchAllSongs()
- // }
+
+// function updateSetlist(data){
+//   fetch(`http://localhost:3000/songs/${id}`, {
+//     "method": "PATCH",
+//     "headers": {
+//       "Content-Type": "application/json"
+//     },
+//     "body": JSON.stringify({
+//       "songs":
+//     })
+//   }).then(r =>
+//     r.json())
+//   .then(json => {
+//     console.log(json)
+//   });
+//
+// };
+
+
 
 
 

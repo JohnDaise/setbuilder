@@ -43,12 +43,31 @@ body {
 
 
 li {
-	font-size: 15px;
+	font-size: 20px;
 	list-style-type: none;
+  /* background: purple; */
+  margin-bottom: 20px;
 }
-
+}
 
 p {
 	font-size: 40px;
+
+}
+
+button.ui primary button{
+	color: purple;
+}
+
+div.show-panel {
+	font-size: 50px;
+	list-style-type: none;
+	margin-right: 60px;
+  /* border: 1px solid red; */
+}
+
+div.setlist-div {
+	font-size: 50px;
+	list-style-type: none;
 
 }
