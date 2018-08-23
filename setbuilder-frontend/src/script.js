@@ -26,6 +26,7 @@ function rightSidePanel(){
      addSong = !addSong
      if (addSong) {
        createSongForm.style.display = 'block'
+       createSongForm.addEventListener('submit', submitHandler)
      } else {
        createSongForm.style.display = 'none'
      }
@@ -108,7 +109,6 @@ function renderSetlistSongs(e){
   };
 
 
-
 // function fetchAllSongs(){
 //   fetch(`http://localhost:3000/songs`)
 //     .then(r => r.json())
@@ -118,22 +118,22 @@ function renderSetlistSongs(e){
 //       });
 // };
 
-// function renderSong(song){
-//   let sidebarDiv = document.getElementById("setlist-div")
-//   let ul = document.getElementById("setlist-order") //make this ul a sidebar
-//   let li = document.createElement('li') //give this li the drag and drop capability
-//
-//   li.id = song.id
-//   li.className = "column"
-//   li.innerHTML = `${song.name}`
-//   li.draggable = "true"
-//   //create showButton at right so reveal song notes in showPanel
-//   li.addEventListener('click', renderNotesHandler)
-//   //have 'drag handle' on left side of li
-//   sidebarDiv.appendChild(ul)
-//   ul.appendChild(li)
-//
-// };
+function renderSong(song){
+  let sidebarDiv = document.getElementById("setlist-div")
+  let ul = document.getElementById("setlist-order") //make this ul a sidebar
+  let li = document.createElement('li') //give this li the drag and drop capability
+
+  li.id = song.id
+  li.className = "column"
+  li.innerHTML = `${song.name}`
+  li.draggable = "true"
+  //create showButton at right so reveal song notes in showPanel
+  li.addEventListener('click', renderNotesHandler)
+  //have 'drag handle' on left side of li
+  sidebarDiv.appendChild(ul)
+  ul.appendChild(li)
+
+};
 
 
 function renderNotesHandler(e){
@@ -152,19 +152,28 @@ function renderNotes(id){
           let showPanel = document.getElementById("show-panel")
           let editBtn = document.createElement('button')
           let deleteBtn = document.createElement('button')
+          let emptyDiv =  document.createElement('div')
 
           editBtn.innerText = "Edit Notes"
           deleteBtn.innerText = "Delete from Set"
-          editBtn.id = data.id
-          deleteBtn.id = data.id
-          editBtn.className ="ui purple button"
-          deleteBtn.className ="ui button"
+          editBtn.id = `edit-${data.id}`
+          deleteBtn.id = `delete-${data.id}`
+          editBtn.className ="ui button"
+          deleteBtn.className ="ui secondary button"
 
           showPanel.innerHTML = ""
+
+
+
           showPanel.appendChild(header)
           showPanel.appendChild(notes)
+          showPanel.appendChild(emptyDiv)
           showPanel.appendChild(editBtn)
           showPanel.appendChild(deleteBtn)
+
+
+
+
 
           header.innerText = data.name
           notes.innerText = data.notes
@@ -172,28 +181,62 @@ function renderNotes(id){
           deleteBtn.addEventListener('click', deletefromSetlist)
           notes.contentEditable = "false"
           //for showPanel have key words come up as different colors for each named section of a song and display in big letters
+
       });
+
 };
 
 
 function editNotes(e){
-  e.preventDefault()
-  let id = e.currentTarget.id
-  let songName = e.currentTarget.parentNode.querySelector("h1").innerText
-  let notes = e.currentTarget.parentNode.querySelector("p")
-  let editBtn = e.currentTarget
-
-
-  if (notes.contentEditable === "false"){
-    notes.contentEditable = !!notes.contentEditable
-    editBtn.innerText = "Save Notes"
-    editBtn.addEventListener('click', updateSong)
-    //fetch patch function to update db
-  } else {
-    notes.contentEditable = !notes.contentEditable
-    editBtn.innerText = "Edit Notes"
-    };
+  e.preventDefault();
+  console.log("edit")
+  // let id = e.currentTarget.id
+  // let songName = e.currentTarget.parentNode.querySelector("h1").innerText
+  // let notes = e.currentTarget.parentNode.querySelector("p")
+  // let editBtn = e.currentTarget
+  //
+  //
+  //
+  // if (notes.contentEditable === "false"){
+  //   notes.contentEditable = !!notes.contentEditable
+  //   editBtn.innerText = "Save Notes"
+  //   editBtn.addEventListener('click', updateSong)
+  //   //fetch patch function to update db
+  // } else {
+  //   notes.contentEditable = !notes.contentEditable
+  //   editBtn.innerText = "Edit Notes"
+  //   };
 };
+//
+function submitHandler(e){
+  e.preventDefault();
+  console.log("hello")
+  // debugger
+  // let name = document.querySelector("#name-input").value;
+  // let notes = document.querySelector("#sprite-input").value;
+  // postNewSong(name, notes)
+}
+
+
+// function postNewSong(name, notes){
+//   window.alert('submited')
+//   console.log('clicked')
+//   fetch(`http://localhost:3000/songs/`, {
+//     "method": "POST",
+//     "headers": {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json"
+//     },
+//     "body": JSON.stringify({
+//       "name": name
+//       "notes": notes
+//     })
+//   }).then(r =>
+//     r.json())
+//   .then(json => {
+//     console.log(json)
+//   });
+// };
 
 
 function deletefromSetlist(){
