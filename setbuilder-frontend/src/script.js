@@ -37,37 +37,43 @@ function fetchSetlist(){
   fetch(`http://localhost:3000/setlists`)
   .then(r => r.json())
     .then(data => {
-      data.forEach(setlist => {
-
-        renderSetlistTitle(setlist);
-
-        //function renderSetlistSongs to sidebar
-      });
+      renderSetlistTitle(data)
     });
 }
 
 
 //make choosing a setlist a dropdown
-function renderSetlistTitle(setlist){
+function renderSetlistTitle(data){
+    data.forEach( setlist => {
+
+      let select = document.getElementById("dropdown");
+      let option = document.createElement("option")
+      option.textContent = setlist.title
+      option.id = setlist.id
+      option.addEventListener('click', renderSetlistSongs)
+      select.appendChild(option)
+    });
+
 
   let sidebarDiv = document.getElementById("setlist-div")
-  let h1 = document.createElement('h1')
-  sidebarDiv.className = "ui celled list"
-  h1.innerText = setlist.title
-  sidebarDiv.appendChild(h1)
+  // let h1 = document.createElement('h1')
 
-  h1.addEventListener('click', renderSetlistSongs )//find setlist)
+  sidebarDiv.className = "ui celled list"
+  // h1.innerText = setlist.title
+  // sidebarDiv.appendChild(h1)
+
+  // h1.addEventListener('click', renderSetlistSongs )//find setlist)
   //use this function to render setlist song names to sidebar as well
 };
 
 function renderSetlistSongs(e){
-  e.preventDefault();
+  let id = e.options[e.selectedIndex].id
   let ul = document.getElementById("setlist-order")
   ul.innerHTML = ""
-  fetch(`http://localhost:3000/setlists`)
+  fetch(`http://localhost:3000/setlists/${id}`)
   .then(r => r.json())
     .then(data => {
-      data[0].songs.forEach(song =>{
+      data.songs.forEach(song =>{
           let sidebarDiv = document.getElementById("setlist-div")
           let ul = document.getElementById("setlist-order") //make this ul a sidebar
           let li = document.createElement('li') //give this li the drag and drop capability
