@@ -8,28 +8,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 function rightSidePanel(){
-  let allSongsBtn = document.createElement('button')
-  let createSetlistBtn = document.createElement('button')
-  let createSongButton = document.createElement('button')
-  let rightSideDiv = document.getElementById("right-panel")
-
-  allSongsBtn.innerText = "Repertoire"
-  createSongButton.innerText = "Add New Song"
-  createSetlistBtn.innerText = "Create New Setlist"
-
-  allSongsBtn.className = "ui primary basic button"
-  createSongButton.className = "ui secondary basic button"
-  createSetlistBtn.className = "ui positive basic button"
-
-
-
-  rightSideDiv.appendChild(allSongsBtn);
-  rightSideDiv.appendChild(createSongButton);
-  rightSideDiv.appendChild(createSetlistBtn);
+  let allSongsBtn = document.getElementById("allSongs-btn")
+  let createSongButton = document.getElementById("addNewSong-btn")
+  let createSetlistBtn = document.getElementById("createSetlist-btn")
+  // let rightSideDiv = document.getElementById("right-panel")
+  // let addSongForm = document.createElement('div')
 
   allSongsBtn.addEventListener('click', renderAllSongs)
   createSongButton.addEventListener('click', createSongForm)
   createSetlistBtn.addEventListener('click', createSetlist)
+
 
 };
 
@@ -47,18 +35,29 @@ function renderSetlistTitle(data){
     data.forEach( setlist => {
 
       let select = document.getElementById("dropdown");
+      let select2 = document.getElementById("dropdown-form");
+
       let option = document.createElement("option")
+      let option2 = document.createElement("option")
+
+
       option.textContent = setlist.title
+      option2.textContent = setlist.title
       option.id = setlist.id
+      option2.id = setlist.id
+
       option.addEventListener('click', renderSetlistSongs)
       select.appendChild(option)
+      select2.appendChild(option2)
     });
 
 
   let sidebarDiv = document.getElementById("setlist-div")
+  let rightSideDiv = document.getElementById("right-panel")
   // let h1 = document.createElement('h1')
 
   sidebarDiv.className = "ui celled list"
+  rightSideDiv.className = "ui celled list"
   // h1.innerText = setlist.title
   // sidebarDiv.appendChild(h1)
 
@@ -80,17 +79,17 @@ function renderSetlistSongs(e){
           li.id = song.id
           li.className = "column"
           li.innerHTML = `${song.name}`
-          li.draggable = "true"
+          Sortable.create(ul)
           //create showButton at right so reveal song notes in showPanel
           li.addEventListener('click', renderNotesHandler)
           //have 'drag handle' on left side of li
           sidebarDiv.appendChild(ul)
           ul.appendChild(li)
-
         //function renderSetlistSongs to sidebar
       });
     });
   };
+
 
 
 // function fetchAllSongs(){

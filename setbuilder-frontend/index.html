@@ -2,13 +2,15 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"/>
+    <link rel="stylesheet" href="index.css">
     <script
      src="https://code.jquery.com/jquery-3.1.1.min.js"
      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
      crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href="index.css">
+
     <title >SetBuilder</title>
   </head>
   <body>
@@ -28,7 +30,34 @@
 
 
     <div id="show-panel" class="show-panel" style="overflow-y:scroll;"></div>
-    <div id="right-panel"></div>
+    <div id="right-panel" class="rightsidenav">
+      <button type="button" id="allSongs-btn" class="ui primary basic button" name="button">Repertoire</button>
+      <button type="button" id="addNewSong-btn" class="ui secondary basic button" name="button">Add New Song</button>
+      <button type="button" id="createSetlist-btn" class="ui positive basic button" name="button">Create Setlist</button>
+
+
+      <form class="ui form" action="index.html" method="post">
+        <div class="field">
+          <label>Add New Song</label>
+          <select onchange="renderSetlistSongs(this)" id="dropdown-form" class="ui dropdown">
+          <option value="">Choose Setlist</option>
+          </select>
+           <label>Song Name</label>
+             <input type="text" name="song-name" placeholder="Song Name">
+           </div>
+             <div class='field'>
+             <label>Notes</label>
+             <textarea></textarea>
+           </div>
+           <button type="button" id="createSetlist-btn" class="ui positive basic button" name="button">Add Song</button>
+      </form>
+
+
+
+    </div>
+
+
+    </div>
     <script type="text/javascript" src="./src/script.js"></script>
   </body>
 </html>

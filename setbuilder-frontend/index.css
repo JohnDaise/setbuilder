@@ -1,73 +1,65 @@
+
 body {
 	display: grid;
-	grid-template-columns: 3fr 5fr 2fr
+	grid-template-columns: 3fr 5fr 2fr;
 }
 
-/* .setlist { */
-    /* height: 100%; /* Full-height: remove this if you want "auto" height */
-    /* width: 160px;
-    position: fixed;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    background-color: white;
-    overflow-x: hidden;
-    padding-top: 100px;
-} */
-
-/* sidebar styling */
-
- .sidenav {
-    height: 100%;
-    /*width: 33%;*/
-    position: fixed;
-    z-index: 1;
-    /*top: 20px;
-    left: 10px; */
-    background: #eee;
-    /* overflow-x: hidden;*/
-    padding: 8px 0;
-}
 
 /* Styling for Draggable li */
 
-[draggable] {
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Required to make elements draggable in old WebKit */
-  -khtml-user-drag: element;
-  -webkit-user-drag: element;
+
+/*  element styling   */
+
+li  {
+	font-size: 30px;
+  margin-bottom: 20px;
+	vertical-align: top;
+	overflow-wrap: break-word;
+	line-height: 28px;
 }
 
-
-li {
+ul {
 	font-size: 20px;
 	list-style-type: none;
-  /* background: purple; */
   margin-bottom: 20px;
 }
-}
+
 
 p {
 	font-size: 40px;
 
 }
 
+/* form.ui form {
+	margin-top: 100px;
+
+} */
+
+
+/*button styling*/
+
 button.ui primary button{
 	color: purple;
 }
 
-div.show-panel {
-	font-size: 50px;
-	list-style-type: none;
-	margin-right: 60px;
-  /* border: 1px solid red; */
+button.ui button{
+	color: purple;
 }
 
-div.setlist-div {
-	font-size: 50px;
-	list-style-type: none;
+button {
+	margin-bottom: 80px;
+}
 
+
+
+/*div styling*/
+
+div.show-panel {
+	 font-size: 80px;
+	 margin-right: 60px;
+}
+
+
+div.right-panel {
+	margin-right: 100px;
 }
