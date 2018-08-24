@@ -2,6 +2,9 @@
 body {
 	display: grid;
 	grid-template-columns: 3fr 5fr 2fr;
+	background-image: url("https://images.unsplash.com/photo-1523281999025-18e791b667db?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=70b94feb3606ec0d409d7d133c290c59&auto=format&fit=crop&w=1349&q=80");
+	background-size:100%;
+
 }
 
 
@@ -12,24 +15,39 @@ body {
 
 li  {
 	font-size: 30px;
-  margin-bottom: 20px;
-	vertical-align: top;
+
+  /* margin: 5px 0; */
+  /* margin-bottom: 20px;
+	vertical-align: top; */
 	overflow-wrap: break-word;
-	line-height: 28px;
+	line-height: 40px;
+	background-color: white;
+	border-radius: 25px;
 }
 
 ul {
 	font-size: 20px;
 	list-style-type: none;
   margin-bottom: 20px;
+  margin-right: 15px;
+	background-color: white;
+	border-radius: 25px;
+
 }
 
 
 p {
 	font-size: 40px;
+	margin-bottom: 20px;
+	background-color: white;
+	border-radius: 25px;
+
 
 }
 
+.cover {
+
+}
 
 
 /*button styling*/
@@ -58,5 +76,6 @@ div.show-panel {
 
 
 div.right-panel {
-	margin-right: 100px;
+	/* margin-right: 100px; */
+
 }

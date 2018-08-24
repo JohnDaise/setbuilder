@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 function rightSidePanel(){
+  let backgroundImg = document.createElement('img')
+  let rightSideDiv = document.getElementById("right-panel")
+
+
+  rightSideDiv.className = ".cover"
+  // rightSideDiv.appendChild(backgroundImg)
+
   let allSongsBtn = document.getElementById("allSongs-btn")
   let createSetlistBtn = document.getElementById("createSetlist-btn")
   let createSongButton = document.getElementById("addNewSong-btn")
