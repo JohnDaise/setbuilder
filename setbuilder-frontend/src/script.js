@@ -188,7 +188,6 @@ function renderNotes(id){
 
 function editNotes(e){
   e.preventDefault();
-  console.log("hi")
   let id = e.currentTarget.id.split("-")[1]
   let songName = e.currentTarget.parentNode.querySelector("h1").innerText
   let notes = e.currentTarget.parentNode.querySelector("p")
