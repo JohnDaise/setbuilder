@@ -29,9 +29,6 @@ function rightSidePanel(){
    });
 };
 
-function createSetlist(e){
-  window.alert("Feature Not Yet Created")
-}
 
 function fetchSetlist(){
   fetch(`http://localhost:3000/setlists`)
@@ -408,6 +405,7 @@ function addSongToSet(id){
  //will open up dropdown to add to or create setlist
 
 function createSetlist(){
+  window.alert("Feature Not Yet Created!")
   console.log('Create Setlist')
   //will create a new setlist
   // use oojs here
