@@ -25,8 +25,9 @@ function rightSidePanel(){
      // hide & seek with the form
      addSong = !addSong
      if (addSong) {
+       let createSongBtn = document.getElementById("createSong-btn")
        createSongForm.style.display = 'block'
-       createSongForm.addEventListener('submit', submitHandler)
+       createSongBtn.addEventListener('click', submitHandler)
      } else {
        createSongForm.style.display = 'none'
      }
@@ -160,10 +161,7 @@ function renderNotes(id){
           deleteBtn.id = `delete-${data.id}`
           editBtn.className ="ui purple button"
           deleteBtn.className ="ui secondary button"
-
           showPanel.innerHTML = ""
-
-
 
           showPanel.appendChild(header)
           showPanel.appendChild(notes)
@@ -171,14 +169,10 @@ function renderNotes(id){
           showPanel.appendChild(editBtn)
           showPanel.appendChild(deleteBtn)
 
-
-
-
-
           header.innerText = data.name
           notes.innerText = data.notes
           editBtn.addEventListener('click', editNotes)
-          deleteBtn.addEventListener('click', deletefromSetlist)
+          deleteBtn.addEventListener('click', deleteHandler)
           notes.contentEditable = "false"
           //for showPanel have key words come up as different colors for each named section of a song and display in big letters
 
@@ -194,8 +188,6 @@ function editNotes(e){
   let notes = e.currentTarget.parentNode.querySelector("p")
   let editBtn = e.currentTarget
 
-
-
   if (notes.contentEditable === "false"){
     notes.contentEditable = !!notes.contentEditable
     editBtn.innerText = "Save Notes"
@@ -210,37 +202,77 @@ function editNotes(e){
 function submitHandler(e){
   e.preventDefault();
   console.log("hello")
-  // debugger
-  // let name = document.querySelector("#name-input").value;
-  // let notes = document.querySelector("#sprite-input").value;
-  // postNewSong(name, notes)
+  let name = e.currentTarget.parentNode.querySelector("input").value
+  let notes = e.currentTarget.parentNode.querySelector("textarea").value
+  let selection = e.currentTarget.parentNode.querySelector("select")
+  let setlistId = selection.options[selection.selectedIndex].id
+
+  let addSongForm = e.currentTarget.parentNode
+  postNewSong(name, notes, setlistId)
+  addSongForm.reset();
 }
 
-
-// function postNewSong(name, notes){
-//   window.alert('submited')
-//   console.log('clicked')
-//   fetch(`http://localhost:3000/songs/`, {
-//     "method": "POST",
-//     "headers": {
-//       "Content-Type": "application/json",
-//       "Accept": "application/json"
-//     },
-//     "body": JSON.stringify({
-//       "name": name
-//       "notes": notes
-//     })
-//   }).then(r =>
-//     r.json())
-//   .then(json => {
-//     console.log(json)
-//   });
-// };
-
-
-function deletefromSetlist(){
-    console.log("Deleted")
+function postNewSong(name, notes, setlistId = 2){
+  window.alert('Song Submitted')
+  fetch(`http://localhost:3000/songs/`, {
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "body": JSON.stringify({
+      'name': name,
+      'notes': notes,
+      'user_id': 1,
+      'setlist_id': setlistId
+    })
+  }).then(r =>
+    r.json())
+  .then(json => {
+    renderNewSetlistSongs(json.setlist.id);
+  });
 };
+
+function renderNewSetlistSongs(id){
+  let ul = document.getElementById("setlist-order")
+  ul.innerHTML = ""
+  fetch(`http://localhost:3000/setlists/${id}`)
+  .then(r => r.json())
+    .then(data => {
+      data.songs.forEach(song =>{
+          let sidebarDiv = document.getElementById("setlist-div")
+          let ul = document.getElementById("setlist-order") //make this ul a sidebar
+          let li = document.createElement('li') //give this li the drag and drop capability
+          li.id = song.id
+          li.className = "column"
+          li.innerHTML = `${song.name}`
+          Sortable.create(ul)
+          //create showButton at right so reveal song notes in showPanel
+          li.addEventListener('click', renderNotesHandler)
+          //have 'drag handle' on left side of li
+          sidebarDiv.appendChild(ul)
+          ul.appendChild(li)
+        //function renderSetlistSongs to sidebar
+      });
+    });
+  };
+
+function deleteHandler(e){
+  e.preventDefault();
+  let id = e.currentTarget.id.split("-")[1];
+  deleteFromSongs(id);
+};
+
+function deleteFromSongs(id){
+  fetch(`http://localhost:3000/songs/${id}`, {
+    "method": "DELETE"
+    })
+    .then(r => r.json())
+    .then(json => {
+      renderNewSetlistSongs(json.setlist.id)
+  });
+
+}
 
 
 function updateSong(e){
@@ -278,7 +310,7 @@ function updateSong(e){
            let li = document.createElement('li')
            li.innerText = song.name
            li.id = song.id
-           li.addEventListener('click', addSongToSet)
+           li.addEventListener('click', console.log('song added'))
            showPanel.appendChild(ul)
            ul.appendChild(li)
          });
@@ -286,25 +318,25 @@ function updateSong(e){
  }
 
 //get this feature to add a song to a setlist to work
-function addSongToSet(e){
-  console.log('Song Added')
-  let id = e.currentTarget.id
-  let dropdown = document.getElementById("dropdown")
-  let setlistId = dropdown.options[dropdown.selectedIndex].id
-  fetch(`http://localhost:3000/songs/${id}`, {
-      "method": "PATCH",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "body": JSON.stringify({
-        "setlist.id": setlistId
-      })
-    }).then(r =>
-      r.json())
-    .then(json => {
-      console.log(json)
-    });
-    };
+// function addSongToSet(e){
+//   console.log('Song Added')
+//   let id = e.currentTarget.id
+//   let dropdown = document.getElementById("dropdown")
+//   let setlistId = dropdown.options[dropdown.selectedIndex].id
+//   fetch(`http://localhost:3000/songs/${id}`, {
+//       "method": "PATCH",
+//       "headers": {
+//         "Content-Type": "application/json"
+//       },
+//       "body": JSON.stringify({
+//         "setlist.id": setlistId
+//       })
+//     }).then(r =>
+//       r.json())
+//     .then(json => {
+//       console.log(json)
+//     });
+//     };
 
 
 // function updateSetlist(data){
