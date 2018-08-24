@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
-
   rightSidePanel();
   fetchSetlist();
-
 })
-
-
 
 function rightSidePanel(){
   let allSongsBtn = document.getElementById("allSongs-btn")
@@ -13,7 +9,6 @@ function rightSidePanel(){
   let createSongButton = document.getElementById("addNewSong-btn")
   let createSongForm = document.getElementById("songForm")
   createSongForm.style.display = "none"
-
 
   // let rightSideDiv = document.getElementById("right-panel")
   // let addSongForm = document.createElement('div')
@@ -32,13 +27,11 @@ function rightSidePanel(){
        createSongForm.style.display = 'none'
      }
    });
-
-
-// YOUR CODE HERE
-
-
-
 };
+
+function createSetlist(e){
+  window.alert("Feature Not Yet Created")
+}
 
 function fetchSetlist(){
   fetch(`http://localhost:3000/setlists`)
@@ -58,7 +51,6 @@ function renderSetlistTitle(data){
 
       let option = document.createElement("option")
       let option2 = document.createElement("option")
-
 
       option.textContent = setlist.title
       option2.textContent = setlist.title
@@ -152,26 +144,39 @@ function renderNotes(id){
           let notes = document.createElement('p')
           let showPanel = document.getElementById("show-panel")
           let editBtn = document.createElement('button')
+          let removeBtn = document.createElement('button')
           let deleteBtn = document.createElement('button')
           let emptyDiv =  document.createElement('div')
 
           editBtn.innerText = "Edit Notes"
-          deleteBtn.innerText = "Delete from Set"
+          removeBtn.innerText = "Remove from Set"
+          deleteBtn.innerText = "Delete"
+
           editBtn.id = `edit-${data.id}`
+
+          removeBtn.id = `remove-${data.id}`
           deleteBtn.id = `delete-${data.id}`
           editBtn.className ="ui purple button"
+
+          removeBtn.className ="ui button"
           deleteBtn.className ="ui secondary button"
           showPanel.innerHTML = ""
 
           showPanel.appendChild(header)
           showPanel.appendChild(notes)
-          showPanel.appendChild(emptyDiv)
+          // showPanel.appendChild(emptyDiv)
           showPanel.appendChild(editBtn)
+
+          if (data.setlist.id !== 2){
+          showPanel.appendChild(removeBtn)};
+
           showPanel.appendChild(deleteBtn)
 
           header.innerText = data.name
           notes.innerText = data.notes
+
           editBtn.addEventListener('click', editNotes)
+          removeBtn.addEventListener('click', removeFromSet)
           deleteBtn.addEventListener('click', deleteHandler)
           notes.contentEditable = "false"
           //for showPanel have key words come up as different colors for each named section of a song and display in big letters
@@ -183,6 +188,7 @@ function renderNotes(id){
 
 function editNotes(e){
   e.preventDefault();
+  console.log("hi")
   let id = e.currentTarget.id.split("-")[1]
   let songName = e.currentTarget.parentNode.querySelector("h1").innerText
   let notes = e.currentTarget.parentNode.querySelector("p")
@@ -198,21 +204,53 @@ function editNotes(e){
     editBtn.innerText = "Edit Notes"
     };
 };
-//
+
+function removeFromSet(e){
+  e.preventDefault();
+  let id = e.currentTarget.id.split("-")[1]
+  fetch(`http://localhost:3000/songs/${id}`, {
+    "method": "PATCH",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": JSON.stringify({
+      'setlist_id': 2
+    })
+  }).then(r =>
+    r.json())
+  .then(json => {
+    document.getElementById("show-panel").innerHTML = ""
+    renderNewSetlistSongs(json.setlist.id-1)
+  });
+
+
+};
+
+
 function submitHandler(e){
   e.preventDefault();
-  console.log("hello")
   let name = e.currentTarget.parentNode.querySelector("input").value
   let notes = e.currentTarget.parentNode.querySelector("textarea").value
   let selection = e.currentTarget.parentNode.querySelector("select")
   let setlistId = selection.options[selection.selectedIndex].id
-
   let addSongForm = e.currentTarget.parentNode
-  postNewSong(name, notes, setlistId)
-  addSongForm.reset();
-}
 
-function postNewSong(name, notes, setlistId = 2){
+  if (name){
+      if(setlistId === ""){
+          setlistId = 2
+          postNewSong(name, notes, setlistId)
+          addSongForm.reset();
+        }else{
+          postNewSong(name, notes, setlistId)
+          addSongForm.reset();
+        };
+  } else {
+  window.alert("Please Enter Song Name")
+  };
+};
+
+function postNewSong(name, notes, setlistId){
+
   window.alert('Song Submitted')
   fetch(`http://localhost:3000/songs/`, {
     "method": "POST",
@@ -229,7 +267,9 @@ function postNewSong(name, notes, setlistId = 2){
   }).then(r =>
     r.json())
   .then(json => {
-    renderNewSetlistSongs(json.setlist.id);
+    if(json.setlist.id){
+    renderNewSetlistSongs(json.setlist.id)}
+    else {renderNewSetlistSongs(2)};
   });
 };
 
@@ -271,7 +311,7 @@ function deleteFromSongs(id){
     .then(json => {
       renderNewSetlistSongs(json.setlist.id)
   });
-
+  document.getElementById("show-panel").innerHTML = ""
 }
 
 
