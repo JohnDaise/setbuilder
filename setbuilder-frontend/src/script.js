@@ -310,35 +310,38 @@ function updateSong(e){
            let li = document.createElement('li')
            li.innerText = song.name
            li.id = song.id
-           li.addEventListener('click', console.log('song added'))
+           li.addEventListener('click', addSongToSetHandler)
            showPanel.appendChild(ul)
            ul.appendChild(li)
          });
        });
  }
 
-//get this feature to add a song to a setlist to work
-// function addSongToSet(e){
-//   console.log('Song Added')
-//   let id = e.currentTarget.id
-//   let dropdown = document.getElementById("dropdown")
-//   let setlistId = dropdown.options[dropdown.selectedIndex].id
-//   fetch(`http://localhost:3000/songs/${id}`, {
-//       "method": "PATCH",
-//       "headers": {
-//         "Content-Type": "application/json"
-//       },
-//       "body": JSON.stringify({
-//         "setlist.id": setlistId
-//       })
-//     }).then(r =>
-//       r.json())
-//     .then(json => {
-//       console.log(json)
-//     });
-//     };
+function addSongToSetHandler(e){
+  e.preventDefault();
+  let id = e.currentTarget.id
+  addSongToSet(id);
+};
 
+function addSongToSet(id){
+  console.log('Song Added')
+  let dropdown = document.getElementById("dropdown")
+  let setlistId = dropdown.options[dropdown.selectedIndex].id
+  fetch(`http://localhost:3000/songs/${id}`, {
+      "method": "PATCH",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": JSON.stringify({
+        "setlist_id": setlistId
+      })
+    }).then(r =>r.json())
+    .then(json => {
+      renderNewSetlistSongs(json.setlist.id)
+    });
+    };
 
+//
 // function updateSetlist(data){
 //   fetch(`http://localhost:3000/songs/${id}`, {
 //     "method": "PATCH",
